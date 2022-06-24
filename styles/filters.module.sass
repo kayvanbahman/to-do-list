@@ -1,0 +1,34 @@
+.filtersContainer
+    display: flex
+    justify-content: space-between
+    width: calc(100% - 20px)
+    background-color: #eee
+    box-shadow: -1px 1px 1px rgba(0,0,0,0.15)
+    margin-left: 10px
+    padding-left: 10px
+    padding-right: 10px
+    margin-top: 6px
+    height: 40px
+    align-items: center
+    color: #888
+
+.countText
+    &>span
+        font-weight: bolder
+.filters
+    &>span
+        cursor: pointer
+    &>span:first-child
+        margin-right: 8px
+    &>.active
+        cursor: default
+        font-weight: bolder
+.clearBtn
+    background: #ccc
+    padding: 4px 8px
+    border-radius: 4px
+    cursor: pointer
+    transition: all .4s ease-in-out
+    &:hover
+        background: #fff
+        border: 1px solid #ccc

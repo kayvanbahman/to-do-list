@@ -1,0 +1,43 @@
+.todo
+    height: 40px
+    border-bottom: 1px solid #ddd
+    display: flex
+    padding-left: 20px
+    padding-right: 10px
+    align-items: center
+    color: #888
+    &:hover
+        &>svg
+            opacity: 1
+    &>svg
+        width: 20px
+        height: 20px
+        opacity: 0
+        transition: opacity .3s ease-in
+        cursor: pointer
+        color: #333
+        margin-left: auto
+.input
+    border: none
+    font-size: 1.12rem
+    background: rgb(250,250,250)
+    &::placeholder
+        font-style: italic
+        color: #999
+    &:focus
+        border: none
+        outline: none
+.status
+    width: 17px
+    height: 17px
+    border-radius: 50%
+    border: 1px solid #000
+    margin-right: 10px
+    cursor: pointer
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    &>svg
+        width: 15px
+        height: 15px
+        color: #000
