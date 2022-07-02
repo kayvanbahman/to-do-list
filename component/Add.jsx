@@ -7,7 +7,6 @@ const Add = () => {
 
   const [text, setText] = useState("");
   const addHandler = async () => {
-    console.log(123);
     if (text.length) dispatch(addItem(text));
     setText("");
   };
