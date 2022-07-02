@@ -10,7 +10,6 @@ export const addItem = (payload) => async (dispatch) => {
 };
 export const getList = (filter) => async (dispatch) => {
   try {
-    console.log(filter, 123);
     const res = await Axios.get(
       "/ToDos" + (filter === "active" ? "/?done=false" : "")
     );
@@ -55,7 +54,6 @@ export const removeCompleted = (payload) => async (dispatch, getStore) => {
   try {
     const { toDos } = getStore();
     const completeds = toDos.filter((it) => it.done);
-    console.log(completeds, toDos);
     const reqs = completeds?.map((it) => Axios.delete("/ToDos/" + it.id));
     Promise.all(reqs).then(function (values) {
       dispatch(getList());
