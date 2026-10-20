@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import classes from "../styles/todo.module.sass";
-import { MdClose, MdOutlineCheck } from "react-icons/md";
+import { MdCheck, MdDeleteOutline, MdEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { addItem, deleteItem, doneItem, editItem } from "../redux/action";
+import { deleteItem, doneItem, editItem } from "../redux/action";
 
 const ToDo = ({ data }) => {
   const [editMode, setEditMode] = useState(false);
@@ -13,20 +13,17 @@ const ToDo = ({ data }) => {
   const dispatch = useDispatch();
 
   const editHandler = async () => {
-    dispatch(
-      editItem({
-        id: data.id,
-        text: text,
-      })
-    );
-    setText("");
-    setEditMode(false);
+    if (!text.trim()) return;
+    try {
+      await dispatch(editItem({ id: data.id, text: text.trim() }));
+      setEditMode(false);
+    } catch {}
   };
   const deleteHandler = () => {
-    dispatch(deleteItem(data.id));
+    dispatch(deleteItem(data.id)).catch(() => {});
   };
   const doneHandler = () => {
-    dispatch(doneItem(data));
+    dispatch(doneItem(data)).catch(() => {});
   };
   const handleEditMode = () => {
     if (!editMode) {
@@ -35,24 +32,26 @@ const ToDo = ({ data }) => {
     }
   };
   return (
-    <div className={classes.todo} onDoubleClick={() => handleEditMode()}>
+    <div className={`${classes.todo} ${data.done ? classes.completed : ""}`}>
       {editMode ? (
-        <input
-          className={classes.input}
-          value={text}
-          onChange={changeHandler}
-          onBlur={() => editHandler()}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") editHandler();
-          }}
-        />
+        <form className={classes.editForm} onSubmit={(event) => { event.preventDefault(); editHandler(); }}>
+          <input className={classes.input} aria-label="Edit task" autoFocus value={text}
+            onChange={changeHandler} onKeyDown={(event) => {
+              if (event.key === "Escape") { setEditMode(false); setText(data.text); }
+            }} />
+          <button type="submit" disabled={!text.trim()}>Save</button>
+          <button type="button" onClick={() => { setEditMode(false); setText(data.text); }}>Cancel</button>
+        </form>
       ) : (
         <>
-          <span className={classes.status} onClick={doneHandler}>
-            {data.done && <MdOutlineCheck />}
-          </span>
-          <span>{data.text}</span>
-          <MdClose onClick={deleteHandler} />
+          <button className={classes.status} type="button" onClick={doneHandler}
+            aria-label={data.done ? `Mark ${data.text} as active` : `Complete ${data.text}`}
+            aria-pressed={data.done}>
+            {data.done && <MdCheck aria-hidden="true" />}
+          </button>
+          <span className={classes.text} onDoubleClick={handleEditMode}>{data.text}</span>
+          <button className={classes.action} type="button" onClick={handleEditMode} aria-label={`Edit ${data.text}`}><MdEdit aria-hidden="true" /></button>
+          <button className={`${classes.action} ${classes.delete}`} type="button" onClick={deleteHandler} aria-label={`Delete ${data.text}`}><MdDeleteOutline aria-hidden="true" /></button>
         </>
       )}
     </div>

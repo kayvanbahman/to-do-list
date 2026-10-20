@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { MdAdd } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addItem } from "../redux/action";
 import classes from "../styles/add.module.sass";
@@ -6,22 +7,30 @@ const Add = () => {
   const dispatch = useDispatch();
 
   const [text, setText] = useState("");
-  const addHandler = async () => {
-    if (text.length) dispatch(addItem(text));
-    setText("");
+  const [pending, setPending] = useState(false);
+  const addHandler = async (event) => {
+    event.preventDefault();
+    if (!text.trim() || pending) return;
+    setPending(true);
+    try {
+      await dispatch(addItem(text.trim()));
+      setText("");
+    } catch {
+    } finally {
+      setPending(false);
+    }
   };
   return (
-    <div className={classes.addContainer}>
+    <form className={classes.addContainer} onSubmit={addHandler}>
+      <span className={classes.addIcon} aria-hidden="true"><MdAdd /></span>
       <input
-        placeholder="What needs to be done?"
+        aria-label="New task"
+        placeholder="Add a new task..."
         value={text}
         onChange={(e) => setText(e.target.value)}
-        onBlur={() => addHandler()}
-        onKeyDown={(event) => {
-          if (event.key === "Enter") addHandler();
-        }}
       />
-    </div>
+      <button type="submit" disabled={!text.trim() || pending}>{pending ? "Adding..." : "Add task"}</button>
+    </form>
   );
 };
 

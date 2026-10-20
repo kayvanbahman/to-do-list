@@ -1,21 +1,51 @@
 .addContainer
-    height: 50px
     display: flex
     align-items: center
-    width: 100%
-    border-bottom: 1px solid #ddd
-    background: rgb(250,250,250)
-    &>input
-        // width: 100%
-        // height: 100%
-        border: none
-        font-size: 1.12rem
-        padding-left: 20px
-        background: rgb(250,250,250)
-
+    gap: 12px
+    min-height: 66px
+    margin: 0 32px 12px
+    padding: 7px 8px 7px 18px
+    border: 1px solid var(--border)
+    border-radius: 14px
+    background: var(--surface-muted)
+    transition: border-color .2s ease
+    &:focus-within
+        border-color: var(--accent)
+    input
+        width: 100%
+        min-width: 0
+        border: 0
+        outline: 0
+        background: transparent
+        color: var(--text)
+        font-size: .98rem
         &::placeholder
-            font-style: italic
-            color: #999
-        &:focus
-            border: none
-            outline: none
+            color: var(--text-soft)
+    button
+        flex: none
+        padding: 11px 18px
+        border: 0
+        border-radius: 10px
+        background: var(--accent)
+        color: var(--accent-text)
+        font-size: .88rem
+        font-weight: 700
+        transition: background-color .2s ease
+        &:not(:disabled):hover
+            background: var(--accent-hover)
+
+.addIcon
+    display: inline-grid
+    place-items: center
+    color: var(--accent)
+    svg
+        width: 22px
+        height: 22px
+
+@media (max-width: 640px)
+    .addContainer
+        margin: 0 20px 12px
+        gap: 8px
+        padding-left: 12px
+        button
+            padding: 11px 12px

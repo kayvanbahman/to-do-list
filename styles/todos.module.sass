@@ -1,5 +1,38 @@
 .todosBox
     width: 100%
-    border-top: 9px solid rgb( 148,131,124)
-    background: #fff
-    box-shadow: 0 1px 1px rgba(0,0,0,0.25), 0 10px 0 -5px #fff,0 10px 2px -4px rgba(0,0,0,0.25),
+
+.list
+    margin: 0
+    padding: 0 32px 12px
+    list-style: none
+    li + li
+        margin-top: 8px
+
+.empty
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding: 42px 20px 50px
+    text-align: center
+    color: var(--text-soft)
+    h3
+        margin: 14px 0 4px
+        color: var(--text)
+        font-size: 1.1rem
+    p
+        margin: 0
+        font-size: .9rem
+
+.emptyIcon
+    display: inline-grid
+    place-items: center
+    width: 50px
+    height: 50px
+    border-radius: 16px
+    background: var(--accent-soft)
+    color: var(--accent)
+    font-size: 1.5rem
+
+@media (max-width: 640px)
+    .list
+        padding: 0 20px 12px

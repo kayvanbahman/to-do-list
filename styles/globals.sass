@@ -1,0 +1,72 @@
+:root
+    color-scheme: light
+    --page: #f4f5f9
+    --surface: #ffffff
+    --surface-muted: #f8f9fc
+    --text: #202238
+    --text-soft: #697087
+    --border: #e5e8f0
+    --accent: #5b5ce2
+    --accent-hover: #494ac9
+    --accent-soft: #efefff
+    --accent-text: #ffffff
+    --success: #2b967c
+    --danger: #c45465
+    --shadow: 0 24px 70px rgba(35, 43, 79, .08)
+    --glow: rgba(108, 108, 230, .1)
+
+html[data-theme="dark"]
+    color-scheme: dark
+    --page: #111420
+    --surface: #1a1e2d
+    --surface-muted: #222738
+    --text: #f3f4fb
+    --text-soft: #a1a9bd
+    --border: #30374b
+    --accent: #9290ff
+    --accent-hover: #aaa8ff
+    --accent-soft: #2d2d51
+    --accent-text: #111420
+    --success: #72cbb6
+    --danger: #ff97a6
+    --shadow: 0 24px 80px rgba(0, 0, 0, .24)
+    --glow: rgba(116, 112, 255, .13)
+
+*, *::before, *::after
+    box-sizing: border-box
+
+html, body, #__next
+    min-height: 100%
+    width: 100%
+    min-width: 0
+
+html, body
+    overflow-x: hidden
+    @supports (overflow: clip)
+        overflow-x: clip
+
+body
+    margin: 0
+    background: var(--page)
+    color: var(--text)
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+    line-height: 1.5
+    transition: background-color .2s ease, color .2s ease
+
+button, input
+    font: inherit
+
+button
+    cursor: pointer
+
+button:disabled
+    cursor: not-allowed
+    opacity: .6
+
+:focus-visible
+    outline: 3px solid var(--accent)
+    outline-offset: 3px
+
+::selection
+    background: var(--accent-soft)
+    color: var(--text)

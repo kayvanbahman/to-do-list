@@ -6,41 +6,45 @@ import classes from "../styles/filters.module.sass";
 const Filters = (props) => {
   const [filter, setFilter] = useState();
   const router = useRouter();
+  const dispatch = useDispatch();
   const filterHandler = (type) => {
-    setFilter(type);
+    if (type === filter) return;
     router.push(`/?filter=${type}`, undefined, { shallow: true });
-    dispatch(getList(type));
   };
   useEffect(() => {
-    if (router.query.filter) setFilter(router.query?.filter);
-    else setFilter("all");
-  }, []);
-  const dispatch = useDispatch();
+    if (!router.isReady) return;
+
+    const nextFilter = router.query.filter === "active" ? "active" : "all";
+    setFilter(nextFilter);
+    dispatch(getList(nextFilter)).catch(() => {});
+  }, [dispatch, router.isReady, router.query.filter]);
   return (
     <div className={classes.filtersContainer}>
       <span className={classes.countText}>
-        <span>{props.activeCount}</span> items left
+        <strong>{props.activeCount}</strong> {props.activeCount === 1 ? "task" : "tasks"} left
       </span>
-      <div className={classes.filters}>
-        <span
+      <div className={classes.filters} role="group" aria-label="Filter tasks">
+        <button type="button"
           onClick={() => filterHandler("all")}
           className={filter === "all" ? classes.active : null}
+          aria-pressed={filter === "all"}
         >
           All
-        </span>
-        <span
+        </button>
+        <button type="button"
           className={filter === "active" ? classes.active : null}
           onClick={() => filterHandler("active")}
+          aria-pressed={filter === "active"}
         >
           Active
-        </span>
+        </button>
       </div>
-      <span
-        onClick={() => dispatch(removeCompleted())}
+      <button type="button"
+        onClick={() => dispatch(removeCompleted(filter)).catch(() => {})}
         className={classes.clearBtn}
       >
         Clear completed
-      </span>
+      </button>
     </div>
   );
 };
